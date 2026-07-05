@@ -463,7 +463,8 @@ void ApplyConditionalTrailing(ulong ticket)
    if(distPoints < InpTrailingActivationPoints) return; // هنوز فعال نشده
 
    // بررسی قدرت حرکت با ATR
-   double atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
+   double atr = 0.0;
+   atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
    if(atr<=0) return;
    double atrPoints = atr/point;
    if(distPoints < atrPoints * InpTrailingATR_Mult) return; // حرکت قوی نیست
@@ -507,7 +508,8 @@ void ModifyPositionSL(ulong ticket,double new_sl)
 //+------------------------------------------------------------------+
 void CalculateSLTPByStrategy(double &sl_points,double &tp_points,int cycle)
   {
-   double atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
+   double atr = 0.0;
+   atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
    double point = SymbolInfoDouble(InpSymbol,SYMBOL_POINT);
    if(atr<=0) atr = 0.1*point; // fallback
 
@@ -583,8 +585,10 @@ double MoneyForLotAndSL(double lot,double sl_points)
 int DetermineEntryDirection(int cycle)
   {
    // بازگشت 1 برای BUY، -1 برای SELL، 0 برای عدم ورود
-   double maFast = iMA(InpSymbol,InpTimeframe,10,0,MODE_SMA,PRICE_CLOSE,0);
-   double maSlow = iMA(InpSymbol,InpTimeframe,50,0,MODE_SMA,PRICE_CLOSE,0);
+   double maFast = 0.0;
+   double maSlow = 0.0;
+   maFast = iMA(InpSymbol,InpTimeframe,10,0,MODE_SMA,PRICE_CLOSE,0);
+   maSlow = iMA(InpSymbol,InpTimeframe,50,0,MODE_SMA,PRICE_CLOSE,0);
    if(maFast==EMPTY_VALUE || maSlow==EMPTY_VALUE) return(0);
    if(maFast>maSlow) return(1); else return(-1);
   }
@@ -594,8 +598,10 @@ int DetermineEntryDirection(int cycle)
 //+------------------------------------------------------------------+
 int DetectMarketCycle()
   {
-   double atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
-   double adx = iADX(InpSymbol,InpTimeframe,InpADX_Period,PRICE_CLOSE,MODE_MAIN,0);
+   double atr = 0.0;
+   double adx = 0.0;
+   atr = iATR(InpSymbol,InpTimeframe,InpATR_Period,0);
+   adx = iADX(InpSymbol,InpTimeframe,InpADX_Period,PRICE_CLOSE,MODE_MAIN,0);
    double lastCandleSize = fabs(iClose(InpSymbol,InpTimeframe,1)-iOpen(InpSymbol,InpTimeframe,1));
    double point = SymbolInfoDouble(InpSymbol,SYMBOL_POINT);
 
@@ -607,7 +613,7 @@ int DetectMarketCycle()
       return(2);
      }
 
-   // Channel/trend: ADX بالا و ATR مناسب
+   // Channel/trend: ADX بال�� و ATR مناسب
    if(adx >= InpADX_Threshold)
      {
       PrintFormat("[DetectCycle] channel/trend detected: adx=%.2f threshold=%.2f", adx, InpADX_Threshold);
