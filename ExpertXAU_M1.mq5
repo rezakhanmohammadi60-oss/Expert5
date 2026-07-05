@@ -353,7 +353,7 @@ bool CanOpenNewTrade()
 
    // 2) محاسبه پوزیشن سایز بر اساس SL پیشنهادی
    double sl_points=0.0, tp_points=0.0; // نقاط (points) - در این نسخه از ATR استفاده می‌شود
-   CalculateSLTPByStrategy(&sl_points,&tp_points,cycle);
+   CalculateSLTPByStrategy(sl_points,tp_points,cycle);
    PrintFormat("[EntryCheck] محاسبه SL/TP: SL=%.1f points, TP=%.1f points (cycle=%d)", sl_points, tp_points, cycle);
    if(tp_points / sl_points < InpMinRR)
      {
@@ -391,7 +391,7 @@ void TryOpenTrade()
   {
    int cycle = DetectMarketCycle();
    double sl_points=0.0, tp_points=0.0;
-   CalculateSLTPByStrategy(&sl_points,&tp_points,cycle);
+   CalculateSLTPByStrategy(sl_points,tp_points,cycle);
    double lot = CalculateLotByRisk(sl_points);
 
    if(lot<=0) return;
@@ -640,7 +640,7 @@ bool IsInNYOpenBuffer()
    TimeToStruct(TimeCurrent(),dt);
    int nowMin = dt.hour*60 + dt.min;
    int nyMin = InpNYOpenHourServer*60 + InpNYOpenMinuteServer;
-   int diff = abs(nowMin - nyMin);
+   int diff = MathAbs(nowMin - nyMin);
    if(diff <= InpNYBufferMin) return(true);
    return(false);
   }
